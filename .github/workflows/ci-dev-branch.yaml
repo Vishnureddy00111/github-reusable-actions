@@ -1,14 +1,7 @@
-name: Cart CI Pipeline
-on:
-  push:
-    branches:
-      - '*'
-      - '!master'
-run-name: ${{ github.sha }} | ${{ github.event.head_commit.message }}
+name: Dev Branch Pipeline
 jobs:
   tests:
     runs-on: self-hosted
-    needs: build
     steps:
       - uses: actions/checkout@v4
       - run: |
