@@ -1,4 +1,7 @@
 name: Dev Branch Pipeline
+on:
+ workflow-call:
+run-name: ${{ github.sha }} | ${{ github.event.head_commit.message }}
 jobs:
   tests:
     runs-on: self-hosted
