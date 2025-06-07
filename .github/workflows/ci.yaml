@@ -1,0 +1,65 @@
+name: Cart CI Pipeline
+on:
+  push:
+    branches:
+      - 'main'
+run-name: ${{ github.sha }} | ${{ github.event.head_commit.message }}
+jobs:
+  UNIT-TESTS:
+  tests:
+   runs-on: self-hosted
+   needs: build
+   steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo npm test
+  build:
+    runs-on: self-hosted
+    needs: tests
+    steps:
+      - users: actions/checkout@v4
+      - run: |
+          echo docker build
+Dev:
+  runs-on: self-hosted
+  needs: build
+  environment: DEV
+  steps:
+    - uses: actions/checkout@v4
+    - run: |
+        echo
+  
+QA:
+    runs-on: self-hosted
+    needs: DEV
+    environment: QA
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo
+E2E-TESTS:
+  runs-on: self-hosted
+  needs: build
+  environment: DEV
+  steps:
+    - uses: actions/checkout@v4
+    - run: |
+        echo
+UAT:
+  runs-on: self-hosted
+  needs: QA
+  environment: E2E-TESTS
+  steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo
+
+
+PRO:
+  runs-on: self-hosted
+  needs: UAT
+  environment: PROD
+  steps:
+      - uses: actions/checkout@v4
+      - run: |
+          echo
