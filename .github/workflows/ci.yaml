@@ -1,25 +1,21 @@
-name: Cart CI Pipeline
+name: Main Branch Pipeline
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_call:
 run-name: ${{ github.sha }} | ${{ github.event.head_commit.message }}
 jobs:
   UNIT-TESTS:
-  tests:
    runs-on: self-hosted
-   needs: build
    steps:
       - uses: actions/checkout@v4
       - run: |
           echo npm test
   build:
     runs-on: self-hosted
-    needs: tests
+    needs: UNIT-TESTS
     steps:
       - users: actions/checkout@v4
       - run: |
-          echo docker build
+          docker build -t
 Dev:
   runs-on: self-hosted
   needs: build
